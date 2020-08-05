@@ -1,8 +1,6 @@
 ﻿using App.MassTransit.Common.Messages;
 using MassTransit;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace App.MassTransit.Common.Consumers

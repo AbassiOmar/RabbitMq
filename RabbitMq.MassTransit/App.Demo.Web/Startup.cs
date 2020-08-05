@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using App.Demo.Web.Consumers;
 using App.MassTransit.Common;
-using App.MassTransit.Common.Consumers;
-using App.MassTransit.Common.Messages;
 using App.MassTransit.Messages;
 using GreenPipes;
 using MassTransit;
@@ -13,7 +8,6 @@ using MassTransit.Definition;
 using MassTransit.RabbitMqTransport;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,7 +32,6 @@ namespace App.Demo.Web
             services.AddMassTransit(cfg =>
             {
                 cfg.UsingRabbitMq(ConfigureRabbitMq);
-                cfg.AddConsumersFromNamespaceContaining<MessageConsumer>();
                 cfg.AddConsumer<OrderCommandConsumer>();
             });
             services.AddHostedService<BusService>();
@@ -65,11 +58,6 @@ namespace App.Demo.Web
                                         cfgRetry.Interval(3, TimeSpan.FromSeconds(5));
                                     });
                                 });
-
-            //configurationBus.ReceiveEndpoint("IMessageMQ", cfgEndpoint =>
-            //{
-            //    cfgEndpoint.ConfigureConsumers(busRegistrationContext);
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
