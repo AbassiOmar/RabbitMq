@@ -1,0 +1,8 @@
+{
+  "RabbitMQ": {
+    "Host": "localhost",
+    "VirtualHost": "testRabbit",
+    "Username": "guest",
+    "Password": "guest"
+  }
+}
