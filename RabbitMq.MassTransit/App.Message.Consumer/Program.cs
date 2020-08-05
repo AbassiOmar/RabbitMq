@@ -29,10 +29,12 @@ namespace App.Message.Consumer
             services.Configure<RabbitMqSettings>(hostingContext.Configuration.GetSection("RabbitMQ"));
             services.AddMassTransit(cfgGlobal =>
             {
-                cfgGlobal.AddConsumer<OrderCommandConsumer>();
                 cfgGlobal.UsingRabbitMq(ConfigureRabbitMq);
+                cfgGlobal.AddConsumer<OrderCommandConsumer>();
+
             });
             services.AddHostedService<BusService>();
+            services.AddHostedService<PublishMessageMQ>();
         }
 
         private static void ConfigureRabbitMq(IBusRegistrationContext busRegistrationContext, IRabbitMqBusFactoryConfigurator rabbitMqBusFactoryConfigurator)

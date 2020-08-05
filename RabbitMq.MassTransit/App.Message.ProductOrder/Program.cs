@@ -1,4 +1,5 @@
 ﻿using App.MassTransit.Common;
+using App.MassTransit.Common.Consumers;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,8 @@ namespace App.Message.ProductOrder
             services.AddMassTransit(cfgGlobal =>
             {
                 cfgGlobal.UsingRabbitMq(ConfigureRabbitMq);
+                cfgGlobal.AddConsumersFromNamespaceContaining<MessageConsumer>();
+
             });
             services.AddHostedService<BusService>();
             services.AddHostedService<SendOrderService>();
@@ -43,6 +46,10 @@ namespace App.Message.ProductOrder
                 cfgRabbitMq.Password(rabbitMQConfiguration.Password);
             });
 
+            rabbitMqBusFactoryConfigurator.ReceiveEndpoint("IMessageMQ", cfgEndpoint =>
+            {
+                cfgEndpoint.ConfigureConsumers(busRegistrationContext);
+            });
         }
     }
 }
